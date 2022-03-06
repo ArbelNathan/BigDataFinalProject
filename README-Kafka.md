@@ -1,8 +1,8 @@
 
 Demo :
 
-1- Open a terminal to the directory where "kafkaProduce.js" and "kafkaConsume.js" are stored
-2- run the command : node kafkaProduce.js
+1- Open a terminal to the directory where the files are stored on your computer
+2- run the command : node app.js
 3- After running the command , in the terminal, ctrl+right click on the link "localhost",your browser should open and select "Send"
 4- Open a new terminal
 5- run the command : node kafkaConsume.js 
