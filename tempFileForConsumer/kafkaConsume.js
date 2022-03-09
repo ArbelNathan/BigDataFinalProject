@@ -16,7 +16,6 @@ const kafkaConf = {
 
 const prefix = "bo4lxb97-";
 const topic = `${prefix}default`;
-const producer = new Kafka.Producer(kafkaConf);
 
 const genMessage = m => new Buffer.alloc(m.length,m);
 //const prefix = process.env.CLOUDKARAFKA_USERNAME;
