@@ -53,42 +53,42 @@ var array;
 update_file_sections=function(last_section,next_section,Exit_from_road){
     const fs2 = require('fs');
     var save2;
-    fs2.readFile('./data/Cars_Sections.json', 'utf-8', (err, data) => {
+    fs2.readFile('./data/Calls_Sections.json', 'utf-8', (err, data) => {
         if (err) {
             throw err;
         }
         save2=JSON.parse(data.toString()); 
-        var1=parseInt(save2.one);var2=parseInt(save2.two);var3=parseInt(save2.three);var4=parseInt(save2.four);var5=parseInt(save2.five);var6=parseInt(save2.six);
-        console.log(var1+","+var2+","+var3+","+var4+","+var5+","+var6)
+        call1=parseInt(save2.one);call2=parseInt(save2.two);call3=parseInt(save2.three);call4=parseInt(save2.four);call5=parseInt(save2.five);call6=parseInt(save2.six);
+        console.log(call1+","+call2+","+call3+","+call4+","+call5+","+call6)
 
         if(next_section!=Exit_from_road){
 
         switch (parseInt(next_section)) {
-            case 1:var1++;break;
-            case 2:var2++;break;
-            case 3:var3++;break;
-            case 4:var4++;break;
-            case 5:var5++;break;
-            case 6:var6++;break;
+            case 1:call1++;break;
+            case 2:call2++;break;
+            case 3:call3++;break;
+            case 4:call4++;break;
+            case 5:call5++;break;
+            case 6:call6++;break;
             default: break;
               
           }
         }
           switch (parseInt(last_section)) {
-            case 1:var1--;break;
-            case 2:var2--;break;
-            case 3:var3--;break;
-            case 4:var4--;break;
-            case 5:var5--;break;
-            case 6:var6--;break;
+            case 1:call1--;break;
+            case 2:call2--;break;
+            case 3:call3--;break;
+            case 4:call4--;break;
+            case 5:call5--;break;
+            case 6:call6--;break;
             default: break;
               
           }
-          console.log(var1+","+var2+","+var3+","+var4+","+var5+","+var6)
+          console.log(call1+","+call2+","+call3+","+call4+","+call5+","+call6)
         const fs3 = require('fs');
-        const cars = {"one": var1,"two": var2,"three": var3,"four": var4,"five": var5,"six": var6 };
-        const data3 = JSON.stringify(cars);
-        fs3.writeFile('./data/Cars_Sections.json', data3, (err) => {
+        const calls = {"one": call1,"two": call2,"three": call3,"four": call4,"five": call5,"six": call6 };
+        const data3 = JSON.stringify(calls);
+        fs3.writeFile('./data/Calls_Sections.json', data3, (err) => {
             if (err) {
                 throw err;
             }

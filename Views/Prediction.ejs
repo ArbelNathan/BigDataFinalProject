@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+
+<!-- <h2>Prediction Table </h2> -->
+<h2 style = "font-family:georgia,garamond,serif;font-size:30px;font-style:italic;"><b><center>
+  Prediction Table
+</center></b></h2>
+
+<!-- <button onclick="process()">Learn again</button> -->
+
+<table  style="width:100%;">
+  
+    </head>
+    <style>
+
+        table, th, td {
+             border: 1px solid black;
+        }
+
+        th, td {
+            padding: 15px;
+        }
+      
+        table { background-color: #e49ace; }
+
+        .container {
+  height: 200px;
+  position: relative;
+  border: 3px solid green;
+}
+
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+       
+    </style>
+   <body onload="initSocket()">
+  <tr>
+    <th></th>
+    <th>1</th>
+    <th>2</th> 
+    <th>3</th>
+    <th>4</th>
+    <th>5</th>
+    <th>6</th>
+   
+  </tr>
+  <tr>
+    <td>1</td>
+    <td><%= array[0]%></td>
+    <td><%= array[1]%></td>
+    <td><%= array[2]%></td>
+    <td><%= array[3]%></td>
+    <td><%= array[4]%></td>
+    <td><%= array[5]%></td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td><%= array[6]%></td>
+    <td><%= array[7]%></td>
+    <td><%= array[8]%></td>
+    <td><%= array[9]%></td>
+    <td><%= array[10]%></td>
+    <td><%= array[11]%></td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td><%= array[12]%></td>
+    <td><%= array[13]%></td>
+    <td><%= array[14]%></td>
+    <td><%= array[15]%></td>
+    <td><%= array[16]%></td>
+    <td><%= array[17]%></td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td><%= array[18]%></td>
+    <td><%= array[19]%></td>
+    <td><%= array[20]%></td>
+    <td><%= array[21]%></td>
+    <td><%= array[22]%></td>
+    <td><%= array[23]%></td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td><%= array[24]%></td>
+    <td><%= array[25]%></td>
+    <td><%= array[26]%></td>
+    <td><%= array[27]%></td>
+    <td><%= array[28]%></td>
+    <td><%= array[29]%></td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td><%= array[30]%></td>
+    <td><%= array[31]%></td>
+    <td><%= array[32]%></td>
+    <td><%= array[33]%></td>
+    <td><%= array[34]%></td>
+    <td><%= array[35]%></td>
+  </tr>
+</table>
+
+
+
+<p id="demo"></p>
+<h2 style = "font-family:georgia,garamond,serif;font-size:30px;font-style:italic;"><b><center>accurency: <%= acur%> %</center></b></h2>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+ 
+<script>
+  // 14/7 - same code as in Sender.ejs = with emit "Outcsv"->app.js and from there we activate mongo_csv
+  function initSocket() {
+            //socket is global
+            socket = io.connect();
+            alert("connected");
+        }
+   function sendMessage() {
+           alert("csv file...");
+            socket.emit("Outcsv");
+   }
+</script> 
+
+
+<input type="button" value="Learn again" onclick="sendMessage()" style = "font-family:georgia,garamond,serif;font-size:30px;font-style:italic;">
+
+
+</body>
+</html>
