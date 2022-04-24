@@ -88,6 +88,8 @@
         message.topic = row.cells[6].getElementsByTagName("select")[0].value;
         message.StartTime = stTime;
         message.EndTime = Date().slice(16, 21);
+        message.timeInYear = document.getElementById("time").value;
+        message.totalWaitingCalls = document.getElementById("total").value;
         message.totalTime =
           (parseInt(Date.now()) - parseInt(message.id)) / 1000; // seconds
         socket.emit("callDetails", message);
@@ -106,10 +108,10 @@
     <input type="number" id="total" min="0" max="200" value="0" />
     <input type="button" value="Set" onclick="sendMessage(total.value)" />
     &nbsp;
-    <select>
-      <option value="Emergency">Holidays</option>
-      <option>Summer Vacation</option>
-      <option>Regular days</option>
+    <select id="time">
+      <option value="Holidays">Holidays</option>
+      <option value="Summer Vacation">Summer Vacation</option>
+      <option value="Regular days">Regular days</option>
     </select>
     <hr />
     <input type="button" onclick="startConv()" value="Answer Call" />
