@@ -10,13 +10,18 @@
   "author": "Arbel Nathan",
   "license": "ISC",
   "dependencies": {
+    "async-lock": "^1.3.1",
+    "bigml": "^1.25.2",
     "body-parser": "^1.19.2",
     "dotenv": "^16.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.3",
+    "fs": "0.0.1-security",
+    "json2csv": "^5.0.7",
     "mongodb": "^4.4.1",
     "node-rdkafka": "^2.12.0",
     "nodemon": "^2.0.15",
+    "socket.io": "^4.4.1",
     "uuid": "^8.3.2"
   }
 }

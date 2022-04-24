@@ -2,6 +2,9 @@
 var MongoClient = require('mongodb').MongoClient;
 const express = require('express');
 const router = express.Router();
+const Json2csvParser = require('json2csv').Parser;
+const fs = require('fs');
+
 
 // //GET BACK ALL THE POSTS
 // router.get('/', async (req, res) => {
@@ -35,8 +38,37 @@ router.post('/', async (req, res) => {
             res.json(resp)
         });
     });
-    
+
 })
+
+exports.publish = function (lock) {
+    // Create a connection to the MongoDB database
+    lock.acquire('bigml', function (done) {
+        console.log('creating new csv');
+        MongoClient.connect(process.env.DB_CONNECTION, function (err, db) {
+            if (err) throw err;
+
+            let dbo = db.db("rest");
+
+            dbo.collection("posts").find({}).toArray(function (err, result) {
+                if (err) throw err;
+
+                //-> Convert JSON to CSV data
+                const csvFields = ['city', 'gender', 'age', 'prevCalls', 'product', 'topic',]
+                const json2csvParser = new Json2csvParser({ csvFields });
+                const csv = json2csvParser.parse(result);
+
+                fs.writeFile('./data/calls.csv', csv, function (err) {
+                    if (err) throw err;
+                    console.log('new csv saved');
+                    done()
+                });
+
+                db.close();
+            });
+        });
+    });
+};
 
 // //GET BACK SPECIFIC POST
 // router.get('/:postId', async (req, res) => {
@@ -75,4 +107,4 @@ router.post('/', async (req, res) => {
 //     }
 // })
 
-module.exports = router;
+exports.router = router;

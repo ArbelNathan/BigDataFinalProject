@@ -16,8 +16,6 @@ const kafkaConf = {
 const prefix = "bo4lxb97-";
 const topic = `${prefix}default`;
 
-const genMessage = m => new Buffer.alloc(m.length,m);
-
 const topics = [topic];
 const consumer = new Kafka.KafkaConsumer(kafkaConf, {
   "auto.offset.reset": "beginning"
