@@ -1,0 +1,1 @@
+{"prediction":"Summer Vacation","path":["city != Salt Lake City","city != Boston"],"confidence":0.31283,"distribution":[["Summer Vacation",202],["Regular days",198],["Holidays",176]],"count":576,"nextPredicates":[{"operator":">","field":"000003","value":0,"count":518},{"operator":"<=","field":"000003","value":0,"count":58}],"probability":0.35069}
