@@ -18,12 +18,9 @@ const KafkaConsumer = require('./module/kafkaConsume.js')
 const bigMlIntegration = require('./module/bigMlIntegration');
 var lock = new AsyncLock();
 
-// app.use('/posts', postsRoute);
-// app.use(express.static('public'))
-
 // ROUTES
 app.get('/', (req, res) => {
-  res.render("pages/prediction")
+  res.render("pages/prediction",{pred:""})
 })
 
 //Kafka consumer Routs
@@ -31,10 +28,6 @@ KafkaConsumer.on("data", function (m) {
   console.log(m.value.toString());
 });
 KafkaConsumer.connect();
-
-// bigMlIntegration.createPredictionFromModel()
-// console.log(bigMlIntegration.prediction_value)
-
 
 // connect To DB
 mongoClient.connect(process.env.DB_CONNECTION, () =>
@@ -47,10 +40,9 @@ io.on("connection", (socket) => {
     bigMlIntegration.createModelFromCSV(lock);
   });
   socket.on("predict", (msg) => {
+    console.log(msg);
     bigMlIntegration.createPredictionFromModel(msg, lock)
   });
-  // bigMlIntegration.createModelFromCSV()
-  // });
 });
 
 //HOW DO WE START LISTENING

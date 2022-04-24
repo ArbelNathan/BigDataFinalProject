@@ -5,17 +5,8 @@ const router = express.Router();
 const Json2csvParser = require('json2csv').Parser;
 const fs = require('fs');
 
-
-// //GET BACK ALL THE POSTS
-// router.get('/', async (req, res) => {
-//     try {
-//         const posts = await Post.find();
-//         res.json(posts);
-//     } catch (err) {
-//         res.json({ message: err });
-//         console.log(err)
-//     }
-// })
+const dbName = "rest"
+const collectionNmae = "calls"
 
 router.get('/specific', (req, res) => {
     res.send('We are on /posts/specific')
@@ -26,10 +17,10 @@ router.post('/', async (req, res) => {
     var resp
     MongoClient.connect(process.env.DB_CONNECTION, function (err, db) {
         if (err) throw err;
-        var dbo = db.db("rest");
+        var dbo = db.db(dbName);
         var myobj = req.body.title;
         console.log(myobj)
-        dbo.collection("posts").insertOne(myobj, function (err, responce) {
+        dbo.collection(collectionNmae).insertOne(myobj, function (err, responce) {
             if (err) throw err;
             console.log("1 document inserted");
             db.close();
@@ -48,15 +39,20 @@ exports.publish = function (lock) {
         MongoClient.connect(process.env.DB_CONNECTION, function (err, db) {
             if (err) throw err;
 
-            let dbo = db.db("rest");
+            let dbo = db.db(dbName);
 
-            dbo.collection("posts").find({}).toArray(function (err, result) {
+            dbo.collection(collectionNmae).find({}).toArray(function (err, result) {
                 if (err) throw err;
-
+                for (var i = 0; i < result.length; i++){
+                    delete result[i]._id;
+                    delete result[i].startTime;
+                }
                 //-> Convert JSON to CSV data
-                const csvFields = ['city', 'gender', 'age', 'prevCalls', 'product', 'topic',]
-                const json2csvParser = new Json2csvParser({ csvFields });
+                const csvFields = ['city', 'gender', 'age', 'prevCalls', 'product', 'topic', 'timeInYear']
+                const opts = { csvFields };
+                const json2csvParser = new Json2csvParser(opts);
                 const csv = json2csvParser.parse(result);
+                // console.log(csv);
 
                 fs.writeFile('./data/calls.csv', csv, function (err) {
                     if (err) throw err;
@@ -69,42 +65,5 @@ exports.publish = function (lock) {
         });
     });
 };
-
-// //GET BACK SPECIFIC POST
-// router.get('/:postId', async (req, res) => {
-//     try {
-//         const posts = await Post.findById(req.params.postId);
-//         res.json(posts);
-//     } catch (err) {
-//         res.json({ message: err });
-//         console.log(err)
-//     }
-// })
-
-// //DELETE SPECIFIC POST
-// router.delete('/:postId', async (req, res) => {
-//     try {
-//         const removedPosts = await Post.remove({ _id: req.params.postId });
-//         res.json(removedPosts);
-//     } catch (err) {
-//         res.json({ message: err });
-//         console.log(err)
-//     }
-// })
-
-// //UPDATE SPECIFIC POST
-// router.patch('/:postId', async (req, res) => {
-//     try {
-//         const removedPosts = await Post.updateOne(
-//             { _id: req.params.postId },
-//             {
-//                 $set: { title: req.body.title }
-//             });
-//         res.json(removedPosts);
-//     } catch (err) {
-//         res.json({ message: err });
-//         console.log(err)
-//     }
-// })
 
 exports.router = router;

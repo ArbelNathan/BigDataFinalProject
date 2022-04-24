@@ -5,6 +5,7 @@ const source = new bigml.Source(connection);
 const fs = require('fs');
 const CSVPath = "./data/calls.csv"
 const modelInfoPath = "./data/modelInfo.json"
+
 const createModelFromCSV = (lock) => {
   lock.acquire('bigml', function (done) {
     console.log("creating a new model.");
@@ -38,7 +39,7 @@ const createModelFromCSV = (lock) => {
   });
 };
 
-const createPredictionFromModel = (perdictionVars,lock) => {
+const createPredictionFromModel = (predictionVars,lock) => {
   lock.acquire('bigml', function (done) {
     console.log("creating a new prediction.");
     fs.readFile(modelInfoPath, 'utf-8', (err, data) => {
@@ -47,7 +48,7 @@ const createPredictionFromModel = (perdictionVars,lock) => {
       }
       const user = JSON.parse(data.toString());
       var localModel = new bigml.LocalModel(user.modelInfo_resource, connection);
-      localModel.predict(perdictionVars,
+      localModel.predict(predictionVars,
         function (error, prediction) {
           if (!error && prediction) {
             console.log(prediction);
