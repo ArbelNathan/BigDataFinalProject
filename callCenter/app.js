@@ -22,7 +22,7 @@ app.get('/send', (req, res) => res.render('sender'));
 app.get('/dashboard', function routeHandler(req ,res) {
     var var1,var2,var3,var4,var5,var6;
     const fs2 = require('fs');
-    fs2.readFile('./BigDataFinalProject/redisops/data/Calls_Sections.json', 'utf-8', (err, data) => {
+    fs2.readFile('./data/Calls_Sections.json', 'utf-8', (err, data) => {
             if (err) {
                 throw err;
             }

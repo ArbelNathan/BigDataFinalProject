@@ -6,14 +6,18 @@ var redisClient = redis.createClient();
 var sub = redis.createClient()
 var save_section;
 
+//waiting for client
+//await redisClient.connect()
+//await sub.connect()
+
 var AsyncLock = require('async-lock');
 var lock = new AsyncLock();
 
 
-function operation(id,last_section,next_section,Exit_from_road) {  //RT dashboard- button details
+function operation(id,last_section,next_section,cEnd) {  //RT dashboard- button details
   lock.acquire(id, function(done) {
       setTimeout(function() {
-          update_file_sections(last_section,next_section,Exit_from_road)
+          update_file_sections(last_section,next_section,cEnd)
           done();
       }, 3000)
   }, function(err, ret) {
@@ -50,7 +54,7 @@ var array;
 }
 
 
-update_file_sections=function(last_section,next_section,Exit_from_road){
+update_file_sections=function(last_section,next_section,cEnd){
     const fs2 = require('fs');
     var save2;
     fs2.readFile('./data/Calls_Sections.json', 'utf-8', (err, data) => {
@@ -61,7 +65,7 @@ update_file_sections=function(last_section,next_section,Exit_from_road){
         call1=parseInt(save2.one);call2=parseInt(save2.two);call3=parseInt(save2.three);call4=parseInt(save2.four);call5=parseInt(save2.five);call6=parseInt(save2.six);
         console.log(call1+","+call2+","+call3+","+call4+","+call5+","+call6)
 
-        if(next_section!=Exit_from_road){
+        if(next_section!=cEnd){
 
         switch (parseInt(next_section)) {
             case 1:call1++;break;
@@ -108,7 +112,7 @@ function update(){
             redisClient.get(key, function (error, value) {
                 if (error) return cb(error);
                 var job = {};
-                job['Id_car']=key;
+                job['Id']=key;
                 job['data']=value;
                 cb(null, job);
             }); 
@@ -128,7 +132,7 @@ function update(){
                operation('key1',save_section,car.current_section,car.Exit_from_road) //RT button details
                const fs3 = require('fs');
                const data3 = JSON.stringify(results);
-               fs3.writeFile('./data/car_details.json', data3, (err) => {
+               fs3.writeFile('./data/call_details.json', data3, (err) => {
                   if (err) {
                     throw err;
                 }

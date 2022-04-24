@@ -5,12 +5,16 @@ var redis = require('redis');
 var redisClient = redis.createClient();
 var sub = redis.createClient()
 
+//waiting for client
+//await redisClient.connect()
+//await sub.connect()
+
 var server = require('http').createServer(app);
 const io = require("socket.io")(server)
 const port = 8000
 
 redisClient.subscribe('message'); 
-
+redisClient.connect()
 app.get('/', (req, res) => res.send('Hello World!'))
 
 // catch 404 and forward to error handler
@@ -31,7 +35,8 @@ app.use(function(err, req, res, next) {
 
 var call1,call2,call3,call4,call5,call6;
 
-redisClient.on("message", function (channel, data) {
+redisClient.on("message", async function (channel, data) {
+    await redisClient.connect()
     var data = JSON.parse(data);
     currentsection = data["current section"];
    const Current_section={
@@ -40,7 +45,7 @@ redisClient.on("message", function (channel, data) {
 
    const fs = require('fs');
    var saver;
-   fs2.readFile('./data/Cars_Sections.json', 'utf-8', (err, data) => {
+   fs2.readFile('./data/Calls_Sections.json', 'utf-8', (err, data) => {
     if (err) {
         throw err;
     }
@@ -59,7 +64,7 @@ redisClient.on("message", function (channel, data) {
       const fs2 = require('fs');
         const calls = {"one": call1,"two": call2,"three": call3,"four": call4,"five": call5,"six": call6 };
         const data2 = JSON.stringify(calls);
-        fs2.writeFile('./data/Cars_Sections.json', data2, (err) => {
+        fs2.writeFile('./data/Calls_Sections.json', data2, (err) => {
             if (err) {
                 throw err;
             }

@@ -5,9 +5,18 @@ var redis = require('redis');
 var redisClient = redis.createClient();
 var sub = redis.createClient()
 var async = require("async");
+
+//redisClient.connect
+//waiting for client
+//await redisClient.connect()
+//await sub.connect()
+
+
 // for explanations : https://www.sitepoint.com/using-redis-node-js/
 
-app.get('/test', function (req, res) {
+app.get('/test', async function (req, res) {
+
+    await redisClient.connect()
 
     // Store string  
     redisClient.set('NumberOfCalls', "390", function (err, reply) {
@@ -15,30 +24,13 @@ app.get('/test', function (req, res) {
     });
 
     //Store and get Hash i.e. object( as keyvalue pairs)
-    redisClient.hmset('Sections',"one", 'Sorek',"two", 'Nesharim',"three", 'BenShemen', "four",'nashonim',"five", 'kesem');
-    redisClient.hgetall('Sections', function (err, object) {
+    redisClient.HSET('Sections',"one", 'Sorek',"two", 'Nesharim',"three", 'BenShemen', "four",'nashonim',"five", 'kesem');
+    redisClient.HMGET('Sections', function (err, object) {
         console.log(object);
     });
-    /*
-    also ok:
-    redisClient.hmset('Sections', {
-                        'javascript': 'AngularJS',
-                        'css': 'Bootstrap',
-                        'node': 'Express'
-                        });
-    */
-
-// lists : rpush or lpush
-/* client.rpush(['frameworks', 'angularjs', 'backbone'], function(err, reply) {
-    console.log(reply); //prints 2
-});
-
-// -1= get all
-client.lrange('frameworks', 0, -1, function(err, reply) {
-    console.log(reply); // ['angularjs', 'backbone']
-}); */
-   var see="{\"name\":\"call1\",\"color\":\"black\"}";
-    redisClient.publish("message", "{\"message\":\"Hello from Redis\"}", function () {
+ 
+   var see="{\"name\":\"call1\",\"color\":\"red\"}";
+    redisClient.publish("message", see, function () {
     });
 
     res.send('Communicated with redis...')
@@ -62,8 +54,8 @@ sendredis= function(m){   //13/7- message from kafka (this function we activated
     gender = myObj["gender"];
     age = myObj["age"];
     monthly_num_of_calls = myObj["monthly amount of calls"];
-    product_discussed = myObj["product discussed"]
-    call_subject = myObj["call subject"]
+    product_discussed = myObj["product discussed"];
+    call_subject = myObj["call subject"];
 
     const Redis = {
        "currentsection": currentsection,
