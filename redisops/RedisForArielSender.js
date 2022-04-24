@@ -37,11 +37,11 @@ app.get('/test', function (req, res) {
 client.lrange('frameworks', 0, -1, function(err, reply) {
     console.log(reply); // ['angularjs', 'backbone']
 }); */
-   var view="{\"name\":\"call1\",\"color\":\"black\"}";
+   var see="{\"name\":\"call1\",\"color\":\"black\"}";
     redisClient.publish("message", "{\"message\":\"Hello from Redis\"}", function () {
     });
 
-    res.send('תקשרתי עם רדיס....')
+    res.send('Communicated with redis...')
 });
 
 // catch 404 and forward to error handler
