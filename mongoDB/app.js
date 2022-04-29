@@ -21,7 +21,7 @@ var lock = new AsyncLock();
 
 // ROUTES
 app.get('/', (req, res) => {
-  res.render("pages/prediction", { pred: "" })
+  res.render("pages/prediction")
 })
 
 //Kafka consumer Routs
