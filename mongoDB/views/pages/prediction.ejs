@@ -14,6 +14,10 @@
       //socket is global
       socket = io.connect();
       alert("connected");
+      socket.on('newdata', function (prediction_m) {
+        var element = document.getElementById("prediction");
+        element.innerHTML = "<b><center>prediction: " + prediction_m + "</center></b>";
+      })
     }
     function reportEndCall(row) {
       var message = {};
@@ -22,7 +26,7 @@
       message.age = parseInt(row.cells[2].getElementsByTagName("input")[0].value) || 18;
       message.timeInYear = row.cells[3].getElementsByTagName("select")[0].value;
       message.PrevCalls = parseInt(row.cells[4].getElementsByTagName("input")[0].value) || 0;
-      socket.emit("predict",message);
+      socket.emit("predict", message);
     }
     function createModel() {
       socket.emit("createModel");
@@ -76,7 +80,10 @@
     </tr>
     <input type="button" onclick="createModel()" value="create a new model from storage" />
   </table>
-  <h2 style = "font-family:georgia,garamond,serif;font-size:30px;font-style:italic;"><b><center>prediction: <%= pred%> </center></b></h2>
+  <h2 id="prediction" style="font-family:georgia,garamond,serif;font-size:30px;font-style:italic;"><b>
+      <center>prediction: None yet
+      </center>
+    </b></h2>
 </body>
 
 </html>
