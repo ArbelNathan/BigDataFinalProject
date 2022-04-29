@@ -1,3 +1,17 @@
+var mysql = require("mysql2");
+const fs = require("fs");
+const { get } = require("http");
+var conn = mysql.createConnection({
+  host: "localhost", // Replace with your host name
+  user: "root", // Replace with your database username
+  password: "root", // Replace with your database password
+  database: "test", // // Replace with your database Name
+  port: "3306",
+});
+conn.connect(function (err) {
+  if (err) throw err;
+  console.log("Database is connected successfully !");
+});
 const express = require("express");
 const app = express();
 var server = require("http").createServer(app);
@@ -18,6 +32,14 @@ app.use(express.static("public"));
 
 app.get("/", (req, res) => res.send("<a href='/send'>Send</a>"));
 app.get("/send", (req, res) => res.render("sender"));
+app.get("/sendData", async (req, res) => {
+  conn.query(`SELECT * FROM calls`, function (err, result) {
+    if (err) {
+      throw err;
+    }
+    return res.send(result[Math.floor(Math.random() * result.length)]);
+  });
+});
 
 //------------ Socket.io ----------------
 io.on("connection", (socket) => {
