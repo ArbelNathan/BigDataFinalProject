@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+ 
+  <script>
+    myfunction= function(element){
+      alert("click")
+      element.hidden = true;
+      save_json="<%= json%>";
+      // elem=JSON.stringify(save_json);
+      // console.log(elem)
+      // for(let i=0;i<elem.length;i++){
+      //     console.log(elem[i])
+      // }
+      document.getElementById("demo").innerHTML = save_json;
+
+    }
+
+  </script>
+  <style>
+    .center {
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+    .top-left {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+}
+    </style>
+  <script type="text/javascript" >
+  window.onload = function () {
+    
+    var var1="<%= one%>" ;
+    var var2="<%= two%>" ;
+    var var3="<%= three%>" ;
+    var var4="<%= four%>" ;
+    var var5="<%= five%>" ;
+    var var6="<%= six%>" ;
+
+    var chart = new CanvasJS.Chart("chartContainer", {
+      title:{
+        text: "Calls stored"              
+      },
+      data: [//array of dataSeries              
+        { //dataSeries object
+         type: "column",
+         dataPoints: [
+         { label: "1", y: parseInt(var1.toString())},
+         { label: "2", y: parseInt(var2.toString())},
+         { label: "3", y: parseInt(var3.toString())},                                    
+         { label: "4", y: parseInt(var4.toString())},
+         { label: "5", y: parseInt(var5.toString())},
+         { label: "6", y: parseInt(var6.toString())}
+         ]
+       }
+       ]
+     });
+
+    chart.render();
+
+  }
+  </script>
+  <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+
+</head>
+<body>
+  <script>
+      $(document).ready(function(){
+        $.getJSON("./data/car_details.json",function(data){
+          $.each(data,function(key,value){
+              console.log(value);
+          });
+        });
+      }); 
+      </script>
+  <div id="chartContainer" style="height: 300px; width: 100%;">
+
+  </div>
+
+    <div class="center">
+      <input type="button"  value="Call Details" onClick=myfunction(this) style = "font-family:georgia,garamond,serif;font-size:25px;font-style:italic;">
+      
+    </div>
+
+    <p id="demo" style = "font-family:georgia,garamond,serif;font-size:30px;font-style:italic;"></p>
+     
+
+</body>
+</html>

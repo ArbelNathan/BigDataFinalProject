@@ -1,0 +1,28 @@
+{
+  "name": "redisops",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Info_Redis_Update.js",
+  "dependencies": {
+    "async": "^3.2.3",
+    "async-lock": "^1.3.1",
+    "body-parser": "^1.20.0",
+    "ejs": "^3.1.7",
+    "express": "^4.17.3",
+    "fs": "0.0.1-security",
+    "http": "0.0.1-security",
+    "mongodb": "^4.5.0",
+    "node-rdkafka": "^2.12.0",
+    "redis": "^4.0.6",
+    "socket.io": "^4.5.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

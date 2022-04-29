@@ -1,0 +1,89 @@
+<html>
+
+<head>
+  <!--
+        https://medium.com/@noufel.gouirhate/build-a-simple-chat-app-with-node-js-and-socket-io-ea716c093088xc
+        https://hmh.engineering/experimenting-with-apache-kafka-and-nodejs-5c0604211196
+        https://www.sitepoint.com/using-redis-node-js/
+    -->
+
+<body onload="initSocket()">
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    function initSocket() {
+      //socket is global
+      socket = io.connect();
+      alert("connected");
+      socket.on('newdata', function (prediction_m) {
+        var element = document.getElementById("prediction");
+        element.innerHTML = "<b><center>prediction: " + prediction_m + "</center></b>";
+      })
+    }
+    function reportEndCall(row) {
+      var message = {};
+      message.city = row.cells[0].getElementsByTagName("select")[0].value;
+      message.gender = row.cells[1].getElementsByTagName("select")[0].value;
+      message.age = parseInt(row.cells[2].getElementsByTagName("input")[0].value) || 18;
+      message.timeInYear = row.cells[3].getElementsByTagName("select")[0].value;
+      message.PrevCalls = parseInt(row.cells[4].getElementsByTagName("input")[0].value) || 0;
+      socket.emit("predict", message);
+    }
+    function createModel() {
+      socket.emit("createModel");
+    }
+  </script>
+  </head>
+
+
+  <table id="openConversations" border="1" style="background-color: burlywood">
+    <tr>
+      <th>City</th>
+      <th>Gender</th>
+      <th>Age</th>
+      <th>TimeInYear</th>
+      <th>PrevCalls</th>
+      <th>End</th>
+    </tr>
+    <tr>
+      <td><select>
+          <option value='New York'>New York</option>
+          <option value='Atlanta'>Atlanta</option>
+          <option value='baltimore'>Baltimore</option>
+          <option value='Boston'>Boston</option>
+          <option value='Denver'>Denver</option>
+          <option value='Las Vegas'>Las Vegas</option>
+          <option value='Los Angeles'>Los Angeles</option>
+          <option value='Miami'>Miami</option>
+          <option value='Nashville'>Nashville</option>
+          <option value='Philadelphia'>Philadelphia</option>
+          <option value='Phoenix'>Phoenix</option>
+          <option value='Portland'>Portland</option>
+          <option value='Salt Lake City'>Salt Lake City</option>
+          <option value='San Diego'>San Diego</option>
+          <option value='San Francisco'>San Francisco</option>
+          <option value='Seattle'>Seattle</option>
+          <option value='Washington'>Washington</option>
+        </select></td>
+      <td><select>
+          <option value='male'>M</option>
+          <option value='female'>F</option>
+        </select></td>
+      <td><input type='number' min='0' max='120' /></td>
+      <td><select>
+          <option value='Holidays'>Holidays</option>
+          <option value='Summer Vacation'>Summer Vacation</option>
+          <option value='Regular days'>Regular days</option>
+        </select></td>
+      <td><input type='number' min='0' /></td>
+      <td><button onclick='reportEndCall(this.parentNode.parentNode)'>Predict</button></td>
+
+    </tr>
+    <input type="button" onclick="createModel()" value="create a new model from storage" />
+  </table>
+  <h2 id="prediction" style="font-family:georgia,garamond,serif;font-size:30px;font-style:italic;"><b>
+      <center>prediction: None yet
+      </center>
+    </b></h2>
+</body>
+
+</html>
