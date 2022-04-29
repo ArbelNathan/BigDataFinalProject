@@ -2,7 +2,8 @@ const express = require('express');
 const app = express();
 var server = require('http').createServer(app);
 const io = require("socket.io")(server)
-const port = 3002
+const port = 3000
+
 
 //------------ kafka------------
 const kafka = require('./kafkaProduce');
