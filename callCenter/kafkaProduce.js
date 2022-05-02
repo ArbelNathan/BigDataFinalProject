@@ -10,7 +10,6 @@ const kafkaConf = {
       ","
     ),
   "socket.keepalive.enable": true,
-  // "security.protocol": "SASL_SSL",
   "sasl.mechanisms": "SCRAM-SHA-256",
   "sasl.username": "bo4lxb97",
   "sasl.password": "LxAJNWji_ew_dvGIVejulDFaBoMb-yM6",
